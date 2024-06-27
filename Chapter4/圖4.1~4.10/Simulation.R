@@ -1,15 +1,9 @@
----
-title: "R Notebook"
-output:
-  html_notebook: default
----
 
-```{r}
 source('../function.R')
-```
 
-## Regular
-```{r, fig.width = 14, fig.height = 7}
+
+################ Regular
+
 xr = 1000
 yr = 500
 
@@ -39,9 +33,8 @@ ggplot(data = df_re, aes(x = x, y = y))+
         axis.title.x = element_blank(),
         axis.title.y = element_blank(),
         plot.margin = margin(.4, .8, , , "cm"))
-```
-## Random
-```{r, fig.width = 14, fig.height = 7}
+
+################ Random
 xr = 1000
 yr = 500
 N = 100
@@ -60,10 +53,8 @@ ggplot(data = df_ra, aes(x = x, y = y))+
         axis.title.x = element_blank(),
         axis.title.y = element_blank(),
         plot.margin = margin(.4, .8, , , "cm"))
-```
-## Aggregation-1
 
-```{r, fig.width = 14, fig.height = 7}
+################ Aggregation-1
 xr = 1000
 yr = 500
 N = 100
@@ -84,10 +75,8 @@ ggplot(data = df_ag1, aes(x = x, y = y))+
         axis.title.x = element_blank(),
         axis.title.y = element_blank(),
         plot.margin = margin(.4, .8, , , "cm"))
-```
-## Aggregation-2
 
-```{r, fig.width = 14, fig.height = 7}
+################ Aggregation-2
 xr = 1000
 yr = 500
 N = 100
@@ -110,10 +99,8 @@ ggplot(data = df_ag2, aes(x = x, y = y))+
         axis.title.x = element_blank(),
         axis.title.y = element_blank(),
         plot.margin = margin(.4, .8, , , "cm"))
-```
-## Aggregation-3
 
-```{r, fig.width = 14, fig.height = 7}
+################ Aggregation-3
 xr = 1000
 yr = 500
 N = 100
@@ -135,11 +122,9 @@ ggplot(data = df_ag3, aes(x = x, y = y))+
         axis.title.x = element_blank(),
         axis.title.y = element_blank(),
         plot.margin = margin(.4, .8, , , "cm"))
-```
 
-## QNN
 
-```{r, fig.width = 20, fig.height = 10}
+################ QNN
 df <- data.frame(pattern = c('regular', 'random', 'aggregation 1', 'aggregation 2', 'aggregation 3'), index = c(QNN(df_re, xr, yr, floor(1000/19), floor(500/9))$ar, 
                                                                                                                 QNN(df_ra, xr, yr, r)$ar,
                                                                                                                 QNN(df_ag1, xr, yr, r)$ar,
@@ -152,9 +137,8 @@ ggplot(data=df, aes(x=factor(pattern, levels = unique(pattern)), y=index)) +
   ylab('')+
   geom_text(aes(label = round(index, 2)), vjust = -0.35, colour = "red", size=9)+
   theme(plot.title = element_text(hjust = 0.5, size = 30), axis.text.x=element_text(size=30), axis.text.y=element_text(size=30))
-```
-## NN
-```{r, fig.width = 20, fig.height = 10}
+
+################ NN
 df <- data.frame(pattern = c('regular', 'random', 'aggregation 1', 'aggregation 2', 'aggregation 3'), index = c(CECI(df_re, xr*yr)$R, 
                                                                                                                 CECI(df_ra, xr*yr)$R,
                                                                                                                 CECI(df_ag1, xr*yr)$R,
@@ -168,10 +152,8 @@ p<-ggplot(data=df, aes(x=factor(pattern, levels = unique(pattern)), y=index)) +
   geom_text(aes(label = round(index, 2)), vjust = -0.35, colour = "red", size=9)+
   theme(plot.title = element_text(hjust = 0.5, size = 30), axis.text.x=element_text(size=30), axis.text.y=element_text(size=30))
 p
-```
-## CCV
-```{r, fig.width = 20, fig.height = 10}
 
+############ CCV
 df_sh <- data.frame(Pattern = c('regular', 'random', 'aggregation 1', 'aggregation 2', 'aggregation 3'), index = c(ccv(xr, yr, df_re, 'shannon'), 
                                                                                                                    ccv(xr, yr, df_ra, 'shannon'),
                                                                                                                    ccv(xr, yr, df_ag1, 'shannon'),
@@ -210,9 +192,8 @@ p <- ggplot(data = df_ccv, aes(x = factor(Pattern, levels = unique(Pattern)), y 
         legend.key.height= unit(.8, 'cm'),
         legend.key.width= unit(2, 'cm'))
 p
-```
-## SDM alpha and NBD K
-```{r, fig.width = 20, fig.height = 10}
+
+################ SDM alpha and NBD K
 set.seed(1003)
 qua_re <- df_re %>% as.ppp(c(0, 1000, 0, 500)) %>% quadratcount(1000/20, 500/20)
 qua_ra <- df_ra %>% as.ppp(c(0, 1000, 0, 500)) %>% quadratcount(1000/20, 500/20)
@@ -284,16 +265,4 @@ p2<-ggplot(data=df2, aes(x = factor(pattern, levels = unique(pattern)), y = inde
         legend.key.height= unit(.8, 'cm'),
         legend.key.width= unit(2, 'cm'))
 p2
-```
-
-
-
-
-
-
-
-
-
-
-
 

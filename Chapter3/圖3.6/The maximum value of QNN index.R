@@ -1,12 +1,5 @@
----
-title: "R Notebook"
-output: html_notebook
----
-```{r}
 library(ggplot2)
-```
 
-```{r, fig.width = 14, fig.height = 7}
 xr = 1000
 yr = 500
 
@@ -21,7 +14,7 @@ for (i in 1:9){
 }
 df_re <- data.frame(x = x, y = y)
 df_re <- df_re[which(df_re$y >= 0),]
-#x11(20, 10)
+x11(20, 10)
 ggplot(data = df_re, aes(x = x, y = y))+
   geom_point(size = I(3))+
   xlim(0, 1000)+
@@ -33,5 +26,6 @@ ggplot(data = df_re, aes(x = x, y = y))+
         axis.title.x = element_blank(),
         axis.title.y = element_blank(),
         plot.margin = margin(.4, .7, , , "cm"))
-```
+
+
 

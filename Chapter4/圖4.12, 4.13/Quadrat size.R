@@ -1,14 +1,7 @@
----
-title: "R Notebook"
-output: html_notebook
----
-```{r}
 source('../function.R')
-```
 
 
-## Random
-```{r, fig.width = 14, fig.height = 7}
+################## Random
 set.seed(1003)
 xr = 1000
 yr = 500
@@ -52,18 +45,10 @@ p2 <- ggplot(df, aes(x = factor(size, level = c('5', '10', '20', round(r,2))), y
 
 #x11(15, 10)
 p2
-```
 
 
 
-
-
-
-
-
-
-## Aggregation
-```{r, fig.width = 14, fig.height = 7}
+####################### Aggregation
 set.seed(1003)
 xr = 1000
 yr = 500
@@ -108,5 +93,7 @@ p2 <- ggplot(df, aes(x = factor(size, level = c('5', '10', '20', round(r,2))), y
 
 #x11(15, 10)
 p2
-```
+
+
+
 

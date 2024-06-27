@@ -1,14 +1,6 @@
----
-title: "R Notebook"
-output: html_notebook
----
-
-```{r}
 source('../function.R')
-```
 
-## Random(guarsp)
-```{r, fig.width = 20, fig.height = 10}
+################ Random(guarsp)
 sp = unique(BCI_List[[8]]$sp)
 s = 30
 BCI_data = BCI_List[[8]][which(BCI_List[[8]]$status=="A" & BCI_List[[8]]$dbh >= 10 & BCI_List[[8]]$sp == sp[s]), 5:6]
@@ -37,11 +29,8 @@ result = data.frame(QNN = QNN(BCI_data, xr, yr, r)$ar, pvalue = 2*stats::pnorm(-
 result
 
 
-```
+############# Aggregation(crotbi)
 
-## Aggregation(crotbi)
-
-```{r, fig.width = 20, fig.height = 10}
 xr = 1000
 yr = 500
 s = 8
@@ -70,10 +59,7 @@ t = QNN(BCI_data, xr, yr, r)$c
 result = data.frame(QNN = QNN(BCI_data, xr, yr, r)$ar, pvalue = 2*stats::pnorm(-abs(t)))
 result
 
-```
-
-## Random or aggregation(psycho)
-```{r, fig.width = 20, fig.height = 10}
+############## Random or aggregation(psycho)
 xr = 1000
 yr = 500
 s = 200
@@ -103,20 +89,15 @@ result = data.frame(QNN = QNN(BCI_data, xr, yr, r)$ar, pvalue = 2*stats::pnorm(-
 result
 
 
-```
-
-
-## elevation
-```{r}
+####################### elevation
 BCI_data = BCI_List[[8]][which(BCI_List[[8]]$status=="A" & BCI_List[[8]]$dbh >= 10), c(3, 5, 6)]
 sp = unique(BCI_List[[8]]$sp)
 elve_data <- read.csv("./BCIelev.csv")
 elve_mat <- acast(elve_data, y ~ x, value.var = "elev")
 BCI_data$elevation <- mapply(get_elevation, BCI_data$gx, BCI_data$gy, MoreArgs = list(elve_mat, elve_data))
-```
 
 
-```{r, fig.width = 14, fig.height = 7}
+######################poutre
 s = 48
 ggplot(elve_data, aes(x = x, y = y, fill = elev)) +
   geom_tile() +
@@ -133,16 +114,13 @@ ggplot(elve_data, aes(x = x, y = y, fill = elev)) +
         legend.key.width= unit(1.5, 'cm'),
         axis.title.x=element_blank(),
         axis.title.y=element_blank())+
-        scale_x_continuous(expand=c(0,0))+
-        scale_y_continuous(expand=c(0,0))
+  scale_x_continuous(expand=c(0,0))+
+  scale_y_continuous(expand=c(0,0))
 
 
 NNL(BCI_data[which(BCI_data$sp == sp[s]), ]$elevation, 39.67)
 
-```
-
-
-```{r, fig.width = 14, fig.height = 7}
+######################beilpe
 s = 4
 ggplot(elve_data, aes(x = x, y = y, fill = elev)) +
   geom_tile() +
@@ -159,16 +137,13 @@ ggplot(elve_data, aes(x = x, y = y, fill = elev)) +
         legend.key.width= unit(1.5, 'cm'),
         axis.title.x=element_blank(),
         axis.title.y=element_blank())+
-        scale_x_continuous(expand=c(0,0))+
-        scale_y_continuous(expand=c(0,0))
+  scale_x_continuous(expand=c(0,0))+
+  scale_y_continuous(expand=c(0,0))
 
 
 NNL(BCI_data[which(BCI_data$sp == sp[s]), ]$elevation, 39.67)
 
-```
-
-
-```{r, fig.width = 14, fig.height = 7}
+######################maquco
 s = 115
 ggplot(elve_data, aes(x = x, y = y, fill = elev)) +
   geom_tile() +
@@ -185,27 +160,9 @@ ggplot(elve_data, aes(x = x, y = y, fill = elev)) +
         legend.key.width= unit(1.5, 'cm'),
         axis.title.x=element_blank(),
         axis.title.y=element_blank())+
-        scale_x_continuous(expand=c(0,0))+
-        scale_y_continuous(expand=c(0,0))
+  scale_x_continuous(expand=c(0,0))+
+  scale_y_continuous(expand=c(0,0))
 
 
 NNL(BCI_data[which(BCI_data$sp == sp[s]), ]$elevation, 39.67)
-
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

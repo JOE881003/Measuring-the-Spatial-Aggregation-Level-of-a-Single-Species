@@ -1,9 +1,4 @@
----
-title: "R Notebook"
-output: html_notebook
----
-
-```{r}
+source("../function.R")
 
 set.seed(1234)
 NN_random = c()
@@ -22,7 +17,7 @@ for (n in N){
   NN_p <- c()
   for (i in 1:1000){
     meuse = sf::st_as_sf(maplst[[i]], coords = c("x", "y"),  
-                       crs = 28992, agr = "constant")
+                         crs = 28992, agr = "constant")
     p = nni(meuse)$p
     NN_p = c(NN_p, p)
   }
@@ -41,15 +36,9 @@ for (n in N){
   AR_p[which(AR_p < 0.05)] = 'aggregation'
   AR_p[which(AR_p != 'aggregation')] = 'random'
   QNN_random = c(QNN_random, length(AR_p[AR_p == 'random'])/length(AR_p))
-
+  
 }
 
 result = data.frame(N = N, QNN = QNN_random, NN = NN_random)
 
-
 result
-
-
-
-```
-

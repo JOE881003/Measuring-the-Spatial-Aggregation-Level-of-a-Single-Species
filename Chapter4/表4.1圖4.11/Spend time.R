@@ -1,12 +1,7 @@
----
-title: "R Notebook"
-output: html_notebook
----
-```{r}
 source('../function.R')
-```
 
-```{r, fig.width = 20, fig.height = 10}
+
+##########QNN VS other
 xr = 1000
 yr = 500
 N = 50000
@@ -48,10 +43,10 @@ p<-ggplot(data=df, aes(x=factor(index, levels = unique(index)), y=time)) +
         axis.title.y = element_text(size = 25),
         plot.margin = margin(.4, .5, , .5, "cm"))
 p
-```
 
-```{r}
 
+
+######################QNN VS NN
 xr = 1000
 yr = 500
 N = 50000
@@ -59,9 +54,6 @@ r = (-(xr+yr)-sqrt((xr+yr)^2-4*(1-N)*xr*yr))/(2*(1-N))
 df = data.frame(x = runif(N, 0, xr), y = runif(N, 0, yr))
 meuse <- sf::st_as_sf(df, coords = c("x", "y"),  
                       crs = 28992, agr = "constant")
-
-
-
 
 qnn_c = timing(QNN_C(df, 1000, 500, r)$ar)
 qnn_r = timing(QNN(df, 1000, 500, r)$ar)
@@ -71,15 +63,3 @@ nn_r_p = timing(CECI(df, 1000*500, method = "P")$R)
 
 time = data.frame(qnn_c = qnn_c, qnn_r = qnn_r, nn_c = nn_c, nn_r = nn_r, nn_r_p = nn_r_p)
 time
-```
-
-
-
-
-
-
-
-
-
-
-

@@ -10,7 +10,7 @@ library(reshape2)
 library(scales)
 
 for(i in 1:8){
-  load(paste('./doi_10.15146_5xcp-0d46__v2/bci.tree/bci.tree', i,'.rdata', sep = ''))
+  load(paste('C:/Users/JOE/Desktop/BCI dataset/doi_10.15146_5xcp-0d46__v2/bci.tree/bci.tree', i,'.rdata', sep = ''))
 }
 
 BCI_List <- list()
