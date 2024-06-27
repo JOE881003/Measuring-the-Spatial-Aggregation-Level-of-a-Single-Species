@@ -1,0 +1,44 @@
+---
+title: "test"
+output: html_document
+date: "2024-06-27"
+---
+
+```{r, fig.width = 10, fig.height = 10}
+oh = ((5-sqrt(3))/2)
+x <- c(seq(2, 3, 1), seq(1.5, 3.5, 1), seq(2, 3, 1))
+y <- c(rep(oh+sqrt(3), 2), rep(oh+sqrt(3)/2, 3), rep(oh, 2))
+#x11(10, 10)
+plot(x, y, xlim = c(0, 5), ylim = c(0, 5), pch = 19, xlab = '', ylab = '', xaxt='n', yaxt = 'n')
+
+
+polygon(c(1, 2, 1.5, 1, 2), c(oh, oh, oh+sqrt(3)/2, oh+sqrt(3), oh+sqrt(3)),
+        col = "blue",
+        density = 5, angle = 45, lwd = 3)
+
+polygon(c(1.5, 2.5, 2, 1.5, 2.5), c(oh-sqrt(3)/2, oh-sqrt(3)/2, oh, oh+sqrt(3)/2, oh+sqrt(3)/2),
+        col = "peru",
+        density = 5, angle = 45, lwd = 3)
+
+polygon(c(2.5, 3.5, 3, 2.5, 3.5), c(oh-sqrt(3)/2, oh-sqrt(3)/2, oh, oh+sqrt(3)/2, oh+sqrt(3)/2),
+        col = "violetred",
+        density = 5, angle = 45, lwd = 3)
+
+polygon(c(2, 3, 2.5, 2, 3), c(oh, oh, oh+sqrt(3)/2, oh+sqrt(3), oh+sqrt(3)),
+        col = "green4",
+        density = 5, angle = 45, lwd = 3)
+
+polygon(c(3, 4, 3.5, 3, 4), c(oh, oh, oh+sqrt(3)/2, oh+sqrt(3), oh+sqrt(3)),
+        col = "cyan3",
+        density = 5, angle = 45, lwd = 3)
+
+polygon(c(1.5, 2.5, 2, 1.5, 2.5), c(oh+sqrt(3)/2, oh+sqrt(3)/2, oh+sqrt(3), oh+1.5*sqrt(3), oh+1.5*sqrt(3)),
+        col = "gray64",
+        density = 5, angle = 45, lwd = 3)
+
+polygon(c(2.5, 3.5, 3, 2.5, 3.5), c(oh+sqrt(3)/2, oh+sqrt(3)/2, oh+sqrt(3), oh+1.5*sqrt(3), oh+1.5*sqrt(3)),
+        col = "orange",
+        density = 5, angle = 45, lwd = 3)
+
+points(x, y, cex = 3, pch=19)
+```
