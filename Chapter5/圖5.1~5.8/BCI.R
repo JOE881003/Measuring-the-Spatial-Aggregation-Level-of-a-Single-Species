@@ -1,4 +1,4 @@
-source('../function.R')
+source('./function.R')
 
 ################ Random(guarsp)
 sp = unique(BCI_List[[8]]$sp)
