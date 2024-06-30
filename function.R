@@ -9,22 +9,10 @@ library(spatstat)
 library(reshape2)
 library(scales)
 
-for(i in 1:8){
-  load(paste('./doi_10.15146_5xcp-0d46__v2/bci.tree/bci.tree', i,'.rdata', sep = ''))
-}
-
-BCI_List <- list()
-BCI_List[[1]] <- bci.tree1
-BCI_List[[2]] <- bci.tree2
-BCI_List[[3]] <- bci.tree3
-BCI_List[[4]] <- bci.tree4
-BCI_List[[5]] <- bci.tree5
-BCI_List[[6]] <- bci.tree6
-BCI_List[[7]] <- bci.tree7
-BCI_List[[8]] <- bci.tree8
 
 
 
+bci.tree8[1] <- load('bci.tree8.rdata')
 
 
 get_elevation <- function(x, y, elevation_matrix, elve_data) {
@@ -267,7 +255,7 @@ CECI <- function(mat, area, method = "P")
 
 
 
-#########Find nearest neighbor distance in line
+#########roll data
 roll <- function(data, d){
   data <- as.data.frame(data)
   n <- dim(data)[1]
@@ -282,7 +270,7 @@ roll <- function(data, d){
 
 
 
-#########Other way to find nearest neighbor distance in line
+#########Find nearest neighbor distance in line
 NN_1d <- function(data){
   n = length(data)
   if(n > 1){
@@ -296,7 +284,7 @@ NN_1d <- function(data){
   }
 }
 
-#########Other way to find nearest neighbor distance in line
+#########One dimension NN
 NNL <- function(data, L){
   n <- length(data)
   data <- sort(data)

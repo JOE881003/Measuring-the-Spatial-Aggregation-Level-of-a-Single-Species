@@ -1,9 +1,10 @@
-source('./function.R')
+source('function.R')
+
 
 ################ Random(guarsp)
-sp = unique(BCI_List[[8]]$sp)
+sp = unique(bci.tree8$sp)
 s = 30
-BCI_data = BCI_List[[8]][which(BCI_List[[8]]$status=="A" & BCI_List[[8]]$dbh >= 10 & BCI_List[[8]]$sp == sp[s]), 5:6]
+BCI_data = bci.tree8[which(bci.tree8$status=="A" & bci.tree8$dbh >= 10 & bci.tree8$sp == sp[s]), 5:6]
 #x11(20, 10)
 
 ggplot(data = BCI_data, aes(x = gx, y = gy))+
@@ -21,10 +22,10 @@ ggplot(data = BCI_data, aes(x = gx, y = gy))+
 
 xr = 1000
 yr = 500
-BCI_data = BCI_List[[8]][which(BCI_List[[8]]$status=="A" & BCI_List[[8]]$dbh >= 10 & BCI_List[[8]]$sp == sp[30]), 5:6]
+BCI_data = bci.tree8[which(bci.tree8$status=="A" & bci.tree8$dbh >= 10 & bci.tree8$sp == sp[30]), 5:6]
 N = dim(BCI_data)[1]
 r = (-(xr+yr)-sqrt((xr+yr)^2-4*(1-N)*xr*yr))/(2*(1-N))
-t = QNN(BCI_data, x, y, r)$c
+t = QNN(BCI_data, xr, yr, r)$c
 result = data.frame(QNN = QNN(BCI_data, xr, yr, r)$ar, pvalue = 2*stats::pnorm(-abs(t)))
 result
 
@@ -34,8 +35,8 @@ result
 xr = 1000
 yr = 500
 s = 8
-sp = unique(BCI_List[[8]]$sp)
-BCI_data = BCI_List[[8]][which(BCI_List[[8]]$status=="A" & BCI_List[[8]]$dbh >= 10 & BCI_List[[8]]$sp == sp[s]), 5:6]
+sp = unique(bci.tree8$sp)
+BCI_data = bci.tree8[which(bci.tree8$status=="A" & bci.tree8$dbh >= 10 & bci.tree8$sp == sp[s]), 5:6]
 N = dim(BCI_data)[1]
 #x11(20, 10)
 
@@ -63,8 +64,8 @@ result
 xr = 1000
 yr = 500
 s = 200
-sp = unique(BCI_List[[8]]$sp)
-BCI_data = BCI_List[[8]][which(BCI_List[[8]]$status=="A" & BCI_List[[8]]$dbh >= 10 & BCI_List[[8]]$sp == sp[s]), 5:6]
+sp = unique(bci.tree8$sp)
+BCI_data = bci.tree8[which(bci.tree8$status=="A" & bci.tree8$dbh >= 10 & bci.tree8$sp == sp[s]), 5:6]
 N = dim(BCI_data)[1]
 #x11(20, 10)
 
@@ -90,9 +91,10 @@ result
 
 
 ####################### elevation
-BCI_data = BCI_List[[8]][which(BCI_List[[8]]$status=="A" & BCI_List[[8]]$dbh >= 10), c(3, 5, 6)]
-sp = unique(BCI_List[[8]]$sp)
-elve_data <- read.csv("./BCIelev.csv")
+BCI_data = bci.tree8[which(bci.tree8$status=="A" & bci.tree8$dbh >= 10), c(3, 5, 6)]
+sp = unique(bci.tree8$sp)
+
+elve_data <- read.csv("BCIelev.csv")
 elve_mat <- acast(elve_data, y ~ x, value.var = "elev")
 BCI_data$elevation <- mapply(get_elevation, BCI_data$gx, BCI_data$gy, MoreArgs = list(elve_mat, elve_data))
 
