@@ -118,9 +118,9 @@ ggplot(elve_data, aes(x = x, y = y, fill = elev)) +
         axis.title.y=element_blank())+
   scale_x_continuous(expand=c(0,0))+
   scale_y_continuous(expand=c(0,0))
-
-
-NNL(BCI_data[which(BCI_data$sp == sp[s]), ]$elevation, 39.67)
+L  = max(BCI_data[which(BCI_data$sp == sp[s]), ]$elevation)-min(BCI_data[which(BCI_data$sp == sp[s]), ]$elevation)
+NNL(BCI_data[which(BCI_data$sp == sp[s]), ]$elevation, L)$NNL
+NNL(BCI_data[which(BCI_data$sp == sp[s]), ]$elevation, L)$p
 
 ######################beilpe
 s = 4
@@ -142,8 +142,9 @@ ggplot(elve_data, aes(x = x, y = y, fill = elev)) +
   scale_x_continuous(expand=c(0,0))+
   scale_y_continuous(expand=c(0,0))
 
-
-NNL(BCI_data[which(BCI_data$sp == sp[s]), ]$elevation, 39.67)
+L  = max(BCI_data[which(BCI_data$sp == sp[s]), ]$elevation)-min(BCI_data[which(BCI_data$sp == sp[s]), ]$elevation)
+NNL(BCI_data[which(BCI_data$sp == sp[s]), ]$elevation, L)$NNL
+NNL(BCI_data[which(BCI_data$sp == sp[s]), ]$elevation, L)$p
 
 ######################maquco
 s = 115
@@ -166,5 +167,7 @@ ggplot(elve_data, aes(x = x, y = y, fill = elev)) +
   scale_y_continuous(expand=c(0,0))
 
 
-NNL(BCI_data[which(BCI_data$sp == sp[s]), ]$elevation, 39.67)
+L  = max(BCI_data[which(BCI_data$sp == sp[s]), ]$elevation)-min(BCI_data[which(BCI_data$sp == sp[s]), ]$elevation)
+NNL(BCI_data[which(BCI_data$sp == sp[s]), ]$elevation, L)$NNL
+NNL(BCI_data[which(BCI_data$sp == sp[s]), ]$elevation, L)$p
 

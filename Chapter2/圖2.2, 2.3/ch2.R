@@ -1,4 +1,4 @@
-source('../function.R')
+source('function.R')
 
 ##############The maximum value of NN index
 oh = ((5-sqrt(3))/2)

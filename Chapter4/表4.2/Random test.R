@@ -1,4 +1,4 @@
-source("../function.R")
+source("function.R")
 
 set.seed(1234)
 NN_random = c()

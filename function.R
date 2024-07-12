@@ -293,7 +293,7 @@ NNL <- function(data, L){
   re <- 1/(2*lam)
   sig <- 1/(2*lam*sqrt(n))
   c <- (ra-re)/sig
-  return(list(NNL = ra/re, ra = ra, re = re, p = 2*pt(-abs(c/2), df = n-1)))
+  return(list(NNL = ra/re, ra = ra, re = re, sigma = sig, p = 2*stats::pnorm(-abs(c)), c = (ra-re)/sig))
 }
 
 #########NN index use C
