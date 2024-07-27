@@ -1,8 +1,6 @@
 library(ggplot2)
 
 
-
-
 ## Random
 set.seed(123)
 x <- runif(10, 0, 500)

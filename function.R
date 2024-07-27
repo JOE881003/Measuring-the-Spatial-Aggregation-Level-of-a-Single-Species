@@ -24,10 +24,19 @@ get_elevation <- function(x, y, elevation_matrix, elve_data) {
   }
 }
 #get_elevation(24, 10, elve_mat)
-
-
 #BCI_data = BCI_List[[8]][which(BCI_List[[8]]$status=="A" & BCI_List[[8]]$dbh >= 10), 5:6]
 #sp = unique(BCI_List[[8]]$sp)
+
+
+
+#simulation of species distribution using Poisson cluster process
+#generate a matrix with cnum and rnum, species presence in each cell was recorded as 1
+#using bivariate probability function to generate offsprings
+#Poisson distribution to generate number of parental points
+#geometric distribution to generate number of offsprings for each parental point
+#uniform distribution to obtain locations of parental points
+#cnum determines number of columns, while rnum determines number of rows
+#lambda is the parameter for Poisson distribution, prob is the parameter for geometric distribution
 species.distribution<-function(delta,lambda,prob,cnum,rnum)
 {
   pnum<-rpois(1,lambda)+1 # avoiding zeros, Poission distribution,lambda =  parameter intensity ??
@@ -110,7 +119,7 @@ rdirichlet<-function (n = 1, alpha)
 }
 
 
-#################
+#################計算每個區塊內的個體數
 quad.num <- function(x, y, diste, xr = 1000, yr = 500){
   rlt <- c()
   xn <- xr/diste#50
@@ -176,7 +185,7 @@ ccv <- function(xr, yr, r, type){
   return(sd(lst)/mean(lst))
 }
 
-
+#################SDM mopdel 不同alpha泡泡圖
 bubble<-function(ssmat,factor=1)
 {
   spsn=dim(ssmat)[1]
@@ -274,29 +283,29 @@ roll <- function(data, d){
 NN_1d <- function(data){
   n = length(data)
   if(n > 1){
-  data <- sort(data)
+  data <- sort(data)#排序資料
   da <- data.frame(data, roll(data, 1), roll(data, -1))
-  d <- apply(da, 1, function(x) min(abs(x[1]-x[-1])))
-  t1 <- mean(d)
+  d <- apply(da, 1, function(x) min(abs(x[1]-x[-1])))#計算每個點最近鄰距離
+  t1 <- mean(d)#每個點最近鄰距離平均
     return(t1)
   }else {
     return(0)
   }
 }
 
-#########One dimension NN
+#########One dimension NN(一維最近鄰指標)
 NNL <- function(data, L){
   n <- length(data)
   data <- sort(data)
   ra <- NN_1d(data)
-  lam <- (n-1)/L
-  re <- 1/(2*lam)
-  sig <- 1/(2*lam*sqrt(n))
-  c <- (ra-re)/sig
+  lam <- (n-1)/L#不偏估計密度
+  re <- 1/(2*lam)#最近鄰距離期望值
+  sig <- 1/(2*lam*sqrt(n))#標準誤
+  c <- (ra-re)/sig#檢定統計量
   return(list(NNL = ra/re, ra = ra, re = re, sigma = sig, p = 2*stats::pnorm(-abs(c)), c = (ra-re)/sig))
 }
 
-#########NN index use C
+#########NN index use C(nni package)
 nni <- function(x, win = c("hull", "extent"), method = 'C', A = 1000*500) {
   if(!inherits(x, "sf"))		
     stop(deparse(substitute(x)), " must be an sf POINT object")	
@@ -330,26 +339,26 @@ QNN_C <- function(data, xr, yr, vr, hr = vr){
   mat_t2 = c()
   da <- data.frame(x = data[,1], y = data[,2], xcut = cut(data[,1], breaks = seq(0, xr, vr), labels = 1:(xr/vr)), ycut = cut(data[,2], breaks = seq(0, yr, hr), labels = 1:((yr/hr))))
   for(i in 1:(xr/vr)){
-    dat = sort(da[which(da$xcut == i),2])
+    dat = sort(da[which(da$xcut == i),2])#垂直切割排序
     n = length(dat)
     if (n <= 1) {
       mat_t1 <- c(mat_t1, 0)
       mat_t2 <- c(mat_t2, 0)
     }else{
-      mat_t1 <- c(mat_t1, mean(nndist(dat))*n)
-      mat_t2 <- c(mat_t2, (yr*n)/(2*(n-1)))
+      mat_t1 <- c(mat_t1, mean(nndist(dat))*n)#垂直切割最近鄰距離加權(沒有除上2N)
+      mat_t2 <- c(mat_t2, (yr*n)/(2*(n-1)))#垂直切割最近鄰距離期望值加權(沒有除上2N)
     }
   }
   
   for(i in 1:((yr/hr))){
-    dat = sort(da[which(da$ycut == i),1])
+    dat = sort(da[which(da$ycut == i),1])#水平切割排序
     n = length(dat)
     if(n <= 1){
       mat_t1 <- c(mat_t1, 0)
       mat_t2 <- c(mat_t2, 0)
     }else{
-      mat_t1 <- c(mat_t1, mean(nndist(dat))*n)
-      mat_t2 <- c(mat_t2, (xr*n)/(2*(n-1)))
+      mat_t1 <- c(mat_t1, mean(nndist(dat))*n)#水平切割最近鄰距離加權(沒有除上2N)
+      mat_t2 <- c(mat_t2, (xr*n)/(2*(n-1)))#水平切割最近鄰距離期望值加權(沒有除上2N)
     }
   }
   
@@ -361,14 +370,13 @@ QNN_C <- function(data, xr, yr, vr, hr = vr){
 QNN <- function(data, xr, yr, vr, hr = vr){
   da <- data.frame(x = data[,1], y = data[,2], xcut = cut(data[,1], breaks = seq(0, xr, vr), labels = 1:(xr/vr)), ycut = cut(data[,2], breaks = seq(0, yr, hr), labels = 1:((yr/hr))))
   N <- dim(da)[1]
-  x_t1_lst <- c()
-  x_t2_lst <- c()
-  y_t1_lst <- c()
-  y_t2_lst <- c()
-  sigre <- c()
-  clst <- c()
-  k = 0
-  for(i in 1:(xr/vr)){
+  x_t1_lst <- c()#垂直切割最近鄰距離(空向量)
+  x_t2_lst <- c()#垂直切割最近鄰距離期望值(空向量)
+  y_t1_lst <- c()#水平切割最近鄰距離(空向量)
+  y_t2_lst <- c()#水平切割最近鄰距離期望值(空向量)
+  sigre <- c()#每個區塊的變異數(空向量)
+  k = 0#紀錄有個體區塊有多少
+  for(i in 1:(xr/vr)){#垂直切割
     dat = da[which(da$xcut == i),2]
     n <- length(dat)
     if(n <= 1){
@@ -376,17 +384,17 @@ QNN <- function(data, xr, yr, vr, hr = vr){
       x_t2_lst[i] = 0
     }else{
       k = k + 1
-      lam = (n-1)/yr
-      sig2 <- n*(1/(2*lam))^2
-      t2 = (1)/(2*lam)
-      NN1d = NN_1d(dat)
-      x_t1_lst[i] = NN1d*(n)
-      x_t2_lst[i]= t2*n
+      lam = (n-1)/yr#不偏估計密度
+      sig2 <- n*(1/(2*lam))^2#變異數
+      t2 = (1)/(2*lam)#最近鄰距離期望值
+      NN1d = NN_1d(dat)#最近鄰距離平均
+      x_t1_lst[i] = NN1d*(n)#最近鄰距離平均加權
+      x_t2_lst[i]= t2*n#最近鄰距離期望值加權
       sigre = c(sigre, sig2)
     }
   }
   
-  for(i in 1:((yr/hr))){
+  for(i in 1:((yr/hr))){#水平切割
     dat = da[which(da$ycut == i),1]
     n <- length(dat)
     if(n <= 1){
@@ -394,18 +402,18 @@ QNN <- function(data, xr, yr, vr, hr = vr){
       y_t2_lst[i] = 0
     }else{
       k = k + 1
-      lam = (n-1)/xr
-      sig2 <- n*(1/(2*lam))^2
-      t2 = (1)/(2*lam)
-      NN1d = NN_1d(dat)
-      y_t1_lst[i] = NN1d*(n)
-      y_t2_lst[i]= t2*n
+      lam = (n-1)/xr#不偏估計密度
+      sig2 <- n*(1/(2*lam))^2#變異數
+      t2 = (1)/(2*lam)#最近鄰距離期望值
+      NN1d = NN_1d(dat)#最近鄰距離平均
+      y_t1_lst[i] = NN1d*(n)#最近鄰距離平均加權
+      y_t2_lst[i]= t2*n#最近鄰距離期望值加權
       sigre = c(sigre, sig2)
     }
   }
   t1_lst <- c(x_t1_lst, y_t1_lst)
   t2_lst <- c(x_t2_lst, y_t2_lst)
-  return(list(ar = sum(t1_lst)/sum(t2_lst), t1 = sum(t1_lst), t2 = sum(t2_lst), c = ((sum(t1_lst)/(N))-(sum(t2_lst)/(N)))/(sqrt(sum(sigre))/(N)), deg = k))
+  return(list(ar = sum(t1_lst)/sum(t2_lst), t1 = sum(t1_lst), t2 = sum(t2_lst), c = ((sum(t1_lst)/(N))-(sum(t2_lst)/(N)))/(sqrt(sum(sigre))/(N)), deg = k))#加權平均的(2N)可以約掉
 }
 
 
@@ -416,11 +424,10 @@ NNQ <- function(data, xr, yr, r){
   N <- dim(da)[1]
   mat <- c()
   
-  for (i in 1:(xr/r)){
+  for (i in 1:(xr/r)){#分別計算每個區塊的最近鄰指標
     for (j in 1:(yr/r)){
       dat <- da[which((da$xcut == i) & (da$ycut == j)),1:2]
-      n <- dim(dat)[1]
-      
+      n <- dim(dat)[1]#研究區域的個體數
       if (n <= 1){
         mat <- c(mat, 0)
       }else{
@@ -505,7 +512,7 @@ fit<-function(mat)
   return(res)
 }#
 #
-###################Timing
+###################計時程式碼所需時間
 
 timing <- function(x){
   t1 = Sys.time()
