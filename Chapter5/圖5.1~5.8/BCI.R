@@ -174,6 +174,7 @@ ggplot(elve_data, aes(x = x, y = y, fill = elev)) +
         axis.title.y=element_blank())+
   scale_x_continuous(expand=c(0,0))+
   scale_y_continuous(expand=c(0,0))
+
 L  = max(BCI_data[which(BCI_data$sp == sp[s]), ]$elevation)-min(BCI_data[which(BCI_data$sp == sp[s]), ]$elevation)
 NNL(BCI_data[which(BCI_data$sp == sp[s]), ]$elevation, L)$NNL
 NNL(BCI_data[which(BCI_data$sp == sp[s]), ]$elevation, L)$p
