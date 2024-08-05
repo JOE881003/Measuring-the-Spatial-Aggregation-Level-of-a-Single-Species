@@ -13,6 +13,9 @@ library(scales)
 
 #######################################匯入資料，為2015年的BCI data，與整理海拔高度的函數
 bci.tree8[1] <- load('bci.tree8.rdata')
+#BCI_data = bci.tree8[which(bci.tree8$status=="A" & bci.tree8$dbh >= 10), 5:6]
+#sp = unique(bci.tree8$sp)
+
 
 
 get_elevation <- function(x, y, elevation_matrix, elve_data) {
@@ -26,8 +29,7 @@ get_elevation <- function(x, y, elevation_matrix, elve_data) {
 #elve_data <- read.csv("C:/Users/JOE/Desktop/BCI dataset/BCIelev.csv")
 #elve_mat <- acast(elve_data, y ~ x, value.var = "elev")
 #get_elevation(24, 10, elve_mat)
-#BCI_data = BCI_List[[8]][which(BCI_List[[8]]$status=="A" & BCI_List[[8]]$dbh >= 10), 5:6]
-#sp = unique(BCI_List[[8]]$sp)
+
 #######################################
 
 #############################################################################################出自於Inferring single- and multi-species distributional aggregation using quadrat sampling(2023)中的部分程式碼

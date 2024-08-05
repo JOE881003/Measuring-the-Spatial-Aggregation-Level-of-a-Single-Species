@@ -27,6 +27,7 @@ ggplot(df, aes(x = as.numeric(N), y = as.numeric(value), group = type, color = t
   ylab(expression(hat(lambda)[j]))+
   xlab('個體數')+
   labs(color = '計算方式')+
+  scale_x_continuous(breaks = c(1000, seq(10000, 50000, 10000)))+
   theme(plot.title = element_blank(), 
         axis.text.x = element_text(size = 20), 
         axis.text.y = element_text(size = 20), 

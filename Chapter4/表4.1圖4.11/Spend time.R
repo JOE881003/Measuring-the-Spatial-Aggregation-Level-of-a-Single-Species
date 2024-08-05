@@ -1,5 +1,5 @@
 source('function.R')
-
+#setwd('C:/Users/JOE/Desktop/code')
 
 ##########QNN VS other
 xr = 1000
@@ -55,11 +55,13 @@ df = data.frame(x = runif(N, 0, xr), y = runif(N, 0, yr))
 meuse <- sf::st_as_sf(df, coords = c("x", "y"),  
                       crs = 28992, agr = "constant")
 
-qnn_c = timing(QNN_C(df, 1000, 500, r)$ar)
-qnn_r = timing(QNN(df, 1000, 500, r)$ar)
-nn_c = timing(nni(meuse)$NNI)
+#emission rate = 1.0376233699766934e-05
+qnn_c = timing(QNN_C(df, 1000, 500, r)$ar)#0.000013
+qnn_r = timing(QNN(df, 1000, 500, r)$ar)#0.000016
+
+nn_c = timing(nni(meuse)$NNI)#0.000002
 nn_r = timing(CECI(df, 1000*500, method = "NP")$R)
-nn_r_p = timing(CECI(df, 1000*500, method = "P")$R)
+nn_r_p = timing(CECI(df, 1000*500, method = "P")$R)#0.000474
 
 time = data.frame(qnn_c = qnn_c, qnn_r = qnn_r, nn_c = nn_c, nn_r = nn_r, nn_r_p = nn_r_p)
 time

@@ -33,19 +33,16 @@ result = data.frame(QNN = QNN(BCI_data, xr, yr, r)$ar, pvalue = 2*stats::pnorm(-
 result
 
 
-result2 = data.frame(index = unlist(lapply(c(5, 10, 20, round(r, 2)), function(x) QNN(BCI_data, xr, yr, x)$ar)), size = c("5", "10", "20", as.character(round(r, 2))))
+result2 = data.frame(index = unlist(lapply(c(1:floor(round(r, 2)), round(r, 2)), function(x) QNN(BCI_data, xr, yr, x)$ar)), size = c(as.character(1:floor(round(r, 2))), as.character(round(r, 2))))
 x11(20, 10)
 ggplot(data = result2, aes(x = factor(size, levels = unique(size)), y = index, group = 1))+
   geom_line(linewidth = 1)+
   geom_point(size = 4)+
-  ylim(0, 1)+
+  ylim(0, 1.1)+
   xlab('帶寬(公尺)')+
   ylab('QNN')+
-  annotate('text', x = 1, y = result2$index[1]-0.03, label = round(result2$index[1], 2), col = 'red', size = 7)+
-  annotate('text', x = 2, y = result2$index[2]-0.03, label = round(result2$index[2], 2), col = 'red', size = 7)+
-  annotate('text', x = 3, y = result2$index[3]-0.03, label = round(result2$index[3], 2), col = 'red', size = 7)+
-  annotate('text', x = 4, y = result2$index[4]-0.03, label = round(result2$index[4], 2), col = 'red', size = 7)+
-  scale_y_continuous(limits=c(0,1), expand=c(0,0)) +
+  #annotate('text', x = result2$size, y = result2$index-0.05, label = round(result2$index, 2), col = 'red', size = 7)+
+  scale_y_continuous(limits=c(0,1.1), expand=c(0,0)) +
   theme(axis.text.x = element_text(size = 20), 
         axis.text.y = element_text(size = 20), 
         axis.title.x=element_text(size = 20),
@@ -81,8 +78,24 @@ t = QNN(BCI_data, xr, yr, r)$c
 result = data.frame(QNN = QNN(BCI_data, xr, yr, r)$ar, pvalue = 2*stats::pnorm(-abs(t)))
 result
 
-result2 = data.frame(index = unlist(lapply(c(5, 10, 20, round(r, 2)), function(x) QNN(BCI_data, xr, yr, x)$ar)), size = c("5", "10", "20", as.character(round(r, 2))))
+result2 = data.frame(index = unlist(lapply(c(1:floor(round(r, 2)), round(r, 2)), function(x) QNN(BCI_data, xr, yr, x)$ar)), size = c(as.character(1:floor(round(r, 2))), as.character(round(r, 2))))
 x11(20, 10)
+
+ggplot(data = result2, aes(x = factor(size, levels = unique(size)), y = index, group = 1))+
+  geom_line(linewidth = 1)+
+  geom_point(size = 4)+
+  ylim(0, 1.1)+
+  xlab('帶寬(公尺)')+
+  ylab('QNN')+
+  #annotate('text', x = result2$size, y = result2$index-0.05, label = round(result2$index, 2), col = 'red', size = 7)+
+  scale_y_continuous(limits=c(0,1.1), expand=c(0,0)) +
+  theme(axis.text.x = element_text(size = 20), 
+        axis.text.y = element_text(size = 20), 
+        axis.title.x=element_text(size = 20),
+        axis.title.y=element_text(size = 20),
+        plot.margin = margin(.4, .4, .2, .2, "cm"))
+
+
 ggplot(data = result2, aes(x = factor(size, levels = unique(size)), y = index, group = 1))+
   geom_line(linewidth = 1)+
   geom_point(size = 4)+
@@ -128,8 +141,25 @@ t = QNN(BCI_data, xr, yr, r)$c
 result = data.frame(QNN = QNN(BCI_data, xr, yr, r)$ar, pvalue = 2*stats::pnorm(-abs(t)))
 result
 
-result2 = data.frame(index = unlist(lapply(c(5, 10, 20, round(r, 2)), function(x) QNN(BCI_data, xr, yr, x)$ar)), size = c("5", "10" ,15, as.character(round(r, 2))))
+result2 = data.frame(index = unlist(lapply(c(1:floor(round(r, 2)), round(r, 2)), function(x) QNN(BCI_data, xr, yr, x)$ar)), size = c(as.character(1:floor(round(r, 2))), as.character(round(r, 2))))
 x11(20, 10)
+
+ggplot(data = result2, aes(x = factor(size, levels = unique(size)), y = index, group = 1))+
+  geom_line(linewidth = 1)+
+  geom_point(size = 4)+
+  ylim(0, 1.1)+
+  xlab('帶寬(公尺)')+
+  ylab('QNN')+
+  #annotate('text', x = result2$size, y = result2$index-0.05, label = round(result2$index, 2), col = 'red', size = 7)+
+  scale_y_continuous(limits=c(0,1.1), expand=c(0,0)) +
+  theme(axis.text.x = element_text(size = 20), 
+        axis.text.y = element_text(size = 20), 
+        axis.title.x=element_text(size = 20),
+        axis.title.y=element_text(size = 20),
+        plot.margin = margin(.4, .4, .2, .2, "cm"))
+
+
+
 ggplot(data = result2, aes(x = factor(size, levels = unique(size)), y = index, group = 1))+
   geom_line(linewidth = 1)+
   geom_point(size = 4)+
